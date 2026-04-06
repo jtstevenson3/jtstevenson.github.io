@@ -1,0 +1,485 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Data Analytics Portfolio</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg: #0e0f11;
+    --bg-card: #15171a;
+    --bg-card-hover: #1a1d21;
+    --bg-muted: #1e2126;
+    --border: rgba(255,255,255,0.07);
+    --border-hover: rgba(255,255,255,0.14);
+    --text-primary: #f0ede8;
+    --text-secondary: #9a9690;
+    --text-muted: #5c5a56;
+    --accent: #c8a96e;
+    --accent-dim: rgba(200,169,110,0.12);
+    --accent-border: rgba(200,169,110,0.3);
+    --blue: #5b9bd5;
+    --blue-dim: rgba(91,155,213,0.1);
+    --green: #6bbf8e;
+    --green-dim: rgba(107,191,142,0.1);
+    --coral: #d97b5a;
+    --coral-dim: rgba(217,123,90,0.1);
+    --teal: #4db8a8;
+    --teal-dim: rgba(77,184,168,0.1);
+    --purple: #9b8ec4;
+    --purple-dim: rgba(155,142,196,0.1);
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--text-primary);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 15px;
+    line-height: 1.6;
+    min-height: 100vh;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* subtle grid background */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(255,255,255,0.025) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255,255,255,0.025) 1px, transparent 1px);
+    background-size: 40px 40px;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .page {
+    position: relative;
+    z-index: 1;
+    max-width: 960px;
+    margin: 0 auto;
+    padding: 80px 32px 120px;
+  }
+
+  /* ── HEADER ── */
+  header {
+    margin-bottom: 72px;
+    opacity: 0;
+    animation: fadeUp 0.6s ease forwards;
+  }
+
+  .eyebrow {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 16px;
+  }
+
+  header h1 {
+    font-size: clamp(32px, 5vw, 52px);
+    font-weight: 300;
+    line-height: 1.15;
+    color: var(--text-primary);
+    letter-spacing: -0.02em;
+    margin-bottom: 20px;
+  }
+
+  header h1 em {
+    font-style: italic;
+    color: var(--accent);
+  }
+
+  .header-desc {
+    font-size: 16px;
+    color: var(--text-secondary);
+    max-width: 520px;
+    line-height: 1.7;
+  }
+
+  .header-rule {
+    width: 48px;
+    height: 1px;
+    background: var(--accent);
+    margin: 28px 0;
+    opacity: 0.5;
+  }
+
+  /* ── SECTION LABEL ── */
+  .section-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    margin-bottom: 24px;
+  }
+
+  /* ── PROJECT GRID ── */
+  .projects {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 16px;
+    margin-bottom: 64px;
+  }
+
+  .card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 28px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    transition: background 0.2s ease, border-color 0.2s ease, transform 0.2s ease;
+    opacity: 0;
+    animation: fadeUp 0.5s ease forwards;
+  }
+
+  .card:hover {
+    background: var(--bg-card-hover);
+    border-color: var(--border-hover);
+    transform: translateY(-2px);
+  }
+
+  .card:nth-child(1) { animation-delay: 0.1s; }
+  .card:nth-child(2) { animation-delay: 0.2s; }
+  .card:nth-child(3) { animation-delay: 0.3s; }
+  .card:nth-child(4) { animation-delay: 0.4s; }
+
+  .card.flagship {
+    border-color: var(--accent-border);
+    background: linear-gradient(135deg, #15171a 0%, #1a1810 100%);
+  }
+
+  .card.flagship:hover {
+    border-color: rgba(200,169,110,0.5);
+  }
+
+  .flagship-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 2px;
+  }
+
+  .flagship-tag::before {
+    content: '';
+    display: inline-block;
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--accent);
+  }
+
+  .card-title {
+    font-size: 16px;
+    font-weight: 500;
+    color: var(--text-primary);
+    letter-spacing: -0.01em;
+    margin-bottom: 6px;
+  }
+
+  .card-desc {
+    font-size: 13px;
+    color: var(--text-secondary);
+    line-height: 1.65;
+  }
+
+  /* ── IMPACT BOX ── */
+  .impact {
+    background: var(--blue-dim);
+    border: 1px solid rgba(91,155,213,0.15);
+    border-radius: 8px;
+    padding: 14px 16px;
+  }
+
+  .card.flagship .impact {
+    background: var(--accent-dim);
+    border-color: var(--accent-border);
+  }
+
+  .impact-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--blue);
+    margin-bottom: 6px;
+  }
+
+  .card.flagship .impact-label { color: var(--accent); }
+
+  .impact-text {
+    font-size: 13px;
+    color: var(--text-secondary);
+    line-height: 1.6;
+  }
+
+  .impact-stat {
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--text-primary);
+  }
+
+  /* ── METRICS ROW ── */
+  .metrics {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+
+  .metric {
+    background: var(--bg-muted);
+    border-radius: 6px;
+    padding: 4px 10px;
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    color: var(--text-muted);
+  }
+
+  .metric span {
+    color: var(--text-secondary);
+    font-weight: 500;
+  }
+
+  /* ── BADGES ── */
+  .badges {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
+  }
+
+  .badge {
+    font-size: 11px;
+    font-weight: 500;
+    padding: 3px 10px;
+    border-radius: 99px;
+    letter-spacing: 0.01em;
+  }
+
+  .b-blue   { background: var(--blue-dim);   color: var(--blue);   border: 1px solid rgba(91,155,213,0.2); }
+  .b-green  { background: var(--green-dim);  color: var(--green);  border: 1px solid rgba(107,191,142,0.2); }
+  .b-coral  { background: var(--coral-dim);  color: var(--coral);  border: 1px solid rgba(217,123,90,0.2); }
+  .b-teal   { background: var(--teal-dim);   color: var(--teal);   border: 1px solid rgba(77,184,168,0.2); }
+  .b-purple { background: var(--purple-dim); color: var(--purple); border: 1px solid rgba(155,142,196,0.2); }
+  .b-amber  { background: var(--accent-dim); color: var(--accent); border: 1px solid var(--accent-border); }
+
+  .divider {
+    border: none;
+    border-top: 1px solid var(--border);
+  }
+
+  /* ── TOOLS ── */
+  .tools-section {
+    opacity: 0;
+    animation: fadeUp 0.5s ease 0.5s forwards;
+  }
+
+  .tools-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  .tool-chip {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 7px 14px;
+    font-size: 13px;
+    color: var(--text-secondary);
+    font-family: 'DM Mono', monospace;
+    transition: border-color 0.15s, color 0.15s;
+  }
+
+  .tool-chip:hover {
+    border-color: var(--border-hover);
+    color: var(--text-primary);
+  }
+
+  /* ── FOOTER ── */
+  footer {
+    margin-top: 80px;
+    padding-top: 32px;
+    border-top: 1px solid var(--border);
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    color: var(--text-muted);
+    letter-spacing: 0.04em;
+    opacity: 0;
+    animation: fadeUp 0.5s ease 0.6s forwards;
+  }
+
+  /* ── ANIMATIONS ── */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(16px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 600px) {
+    .page { padding: 48px 20px 80px; }
+    .projects { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <header>
+    <div class="eyebrow">Data Analytics</div>
+    <h1>Building tools that<br><em>surface what matters.</em></h1>
+    <div class="header-rule"></div>
+    <p class="header-desc">End-to-end data solutions spanning pipelines, automation, and business intelligence — built on Snowflake, Power BI, and Python.</p>
+  </header>
+
+  <p class="section-label">Selected projects</p>
+
+  <div class="projects">
+
+    <!-- CBM MBOM — Flagship -->
+    <div class="card flagship">
+      <div>
+        <div class="flagship-tag">Flagship project</div>
+        <div class="card-title">MBOM Alignment and Validation Tool</div>
+        <div class="card-desc">Cross-checks configured BOM structures and PLM design specs against documented CM activity — surfacing misalignments invisible to standard ECO approval flows.</div>
+      </div>
+      <div class="impact">
+        <div class="impact-label">Impact</div>
+        <div class="impact-text">Uncovered a <span class="impact-stat">3 year old spec error</span> affecting 55 item structures and 7 product families — tied to 1,000+ erroneus B2B operations and an estimated <span class="impact-stat">$148M in inventory.</span> Caught within the first month of tool adoption.</div>
+      </div>
+      <hr class="divider">
+      <div class="metrics">
+        <div class="metric"><span>10</span> tables</div>
+        <div class="metric"><span>2</span> repos</div>
+        <div class="metric"><span>1</span> Python script</div>
+        <div class="metric">Daily refresh</div>
+      </div>
+      <div class="badges">
+        <span class="badge b-blue">Snowflake</span>
+        <span class="badge b-green">Python</span>
+        <span class="badge b-blue">Power Automate</span>
+        <span class="badge b-amber">OneDrive</span>
+        <span class="badge b-purple">Power BI</span>
+      </div>
+    </div>
+    
+    
+
+    <!-- Product Network Tool -->
+    <div class="card">
+      <div>
+        <div class="card-title">Product Network Exploration Interface</div>
+        <div class="card-desc">Interactive exploration of product relationships with key attribute overlays, pulling from Snowflake and OneDrive via a daily-refreshed pipeline.</div>
+      </div>
+      <div class="impact">
+        <div class="impact-label">Impact</div>
+        <div class="impact-text">Surfaced <span class="impact-stat">1,170 items with erroneous configs</span> across 944 BOM structures. Replaced the need for Visio/Miro diagramming during new product ERP configuration — saved <span class="impact-stat">8 hrs/week.</span></div>
+      </div>
+      <hr class="divider">
+      <div class="metrics">
+        <div class="metric"><span>10</span> tables</div>
+        <div class="metric"><span>2</span> repos</div>
+        <div class="metric"><span>1</span> Python script</div>
+        <div class="metric">Daily refresh</div>
+      </div>
+      <div class="badges">
+        <span class="badge b-blue">Snowflake</span>
+        <span class="badge b-green">Python</span>
+        <span class="badge b-blue">Power Automate</span>
+        <span class="badge b-amber">OneDrive</span>
+        <span class="badge b-purple">Power BI</span>
+      </div>
+    </div>
+
+    <!-- SiOps -->
+    <div class="card">
+      <div>
+        <div class="card-title">Supplier Data Consolidation — Silicon One Program (Cisco) </div>
+        <div class="card-desc">Automated ingestion and mapping of supplier data across 5 vendors and 18 reports, with 3 Power BI dashboards for actionable insights and executive level visibility.</div>
+      </div>
+      <div class="impact">
+        <div class="impact-label">Impact</div>
+        <div class="impact-text">Granted visibility to <span class="impact-stat">58,000+ unique lots</span> across FABs and OSATs. Removed 1 hr/day of manual file management. Enabled accurate ERP readouts of inventory weeks before material ship-out.</div>
+      </div>
+      <hr class="divider">
+      <div class="metrics">
+        <div class="metric"><span>18</span> reports</div>
+        <div class="metric"><span>13</span> PA flows</div>
+        <div class="metric"><span>5</span> vendors</div>
+        <div class="metric"><span>2</span> repos</div>
+        <div class="metric"><span>1</span> Python script</div>
+        <div class="metric">Daily refresh</div>
+      </div>
+      <div class="badges">
+        <span class="badge b-blue">Snowflake</span>
+        <span class="badge b-green">Python</span>
+        <span class="badge b-coral">VBA</span>
+        <span class="badge b-blue">Power Automate</span>
+        <span class="badge b-amber">SharePoint</span>
+        <span class="badge b-purple">Power BI</span>
+      </div>
+    </div>
+
+<!-- Material Request Form -->
+    <div class="card">
+      <div>
+        <div class="card-title">Component Material Request Form</div>
+        <div class="card-desc">Digitized component material request process, improving tracibility and reducing waste. Submitted pulls were validated and then submitted to Materials team. Completed pulls were archived after a set duration. Status of pulls in process were broadasted via email across shifts at a set cadence.</div>
+      </div>
+      <div class="impact">
+        <div class="impact-label">Impact</div>
+        <div class="impact-text">Eliminated paper-based intake. <span class="impact-stat">Saved 1 hr/day</span> combined across shifts — Leads now submit and track requests directly from workstations.</div>
+      </div>
+      <hr class="divider">
+      <div class="metrics">
+        <div class="metric"><span>3</span> PA flows</div>
+        <div class="metric"><span>1</span> repo</div>
+        <div class="metric">OneDrive</div>
+      </div>
+      <div class="badges">
+        <span class="badge b-blue">Power Automate</span>
+        <span class="badge b-teal">Excel</span>
+        <span class="badge b-amber">OneDrive</span>
+      </div>
+    </div>
+
+
+  </div>
+
+  <div class="tools-section">
+    <p class="section-label">Tools &amp; technologies</p>
+    <div class="tools-grid">
+      <div class="tool-chip">Snowflake</div>
+      <div class="tool-chip">Power Automate</div>
+      <div class="tool-chip">Power BI</div>
+      <div class="tool-chip">Python</div>
+      <div class="tool-chip">VBA</div>
+      <div class="tool-chip">SQL</div>
+      <div class="tool-chip">Excel</div>
+      <div class="tool-chip">OneDrive</div>
+      <div class="tool-chip">SharePoint</div>
+    </div>
+  </div>
+
+  <footer>
+    Data Analytics Portfolio &mdash; Built with HTML &amp; CSS
+  </footer>
+
+</div>
+</body>
+</html>
